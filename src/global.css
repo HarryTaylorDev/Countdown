@@ -1,0 +1,95 @@
+body {
+    background-color: #171717;
+}
+
+.button-container {
+    /* display: flex; */
+    height: 4dvh;
+    /* min-height: 20px; */
+
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+    padding-top: 0.3dvh;
+    padding-bottom: 1dvh;
+
+    /* Add optional styling for margin, padding, etc. */
+}
+
+    .date_button {
+        appearance: none;
+        border: none;
+        background-color: rgb(73, 73, 73); 
+        color: black; 
+        border-radius: 25px; 
+        cursor: pointer;
+
+        padding: 0px 0px;
+        height: 100%;
+        width: 70%;
+        /* padding-right: 50px; */
+    }
+
+    .sort_button {
+        appearance: none;
+        border: none;
+        background-color: #3381CB; 
+        color: white; 
+        padding: 0px 0px; 
+        border-radius: 25px; 
+        cursor: pointer;
+
+
+        
+
+
+        height: 100%;
+        width: 25%;
+    }
+
+.list_box{
+    height: 80dvh;
+    padding-bottom: 1dvh;
+    border-radius: 25px; 
+    background-color: rgb(32, 32, 32);
+}
+
+.add_container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 1dvh;
+    overflow: hidden;
+
+    height: 10dvh;
+
+}
+
+    .add_item_button {
+        appearance: none;
+        border: none;
+        background-color: #3381CB; 
+        color: white; 
+        border-radius: 25px; 
+        cursor: pointer;
+        /**********************/
+
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+    }
+
+
+    .add_item_button:hover{
+        background-color: #2968A3; 
+    }
+
+        .plus {
+            width: 8dvh;
+            height: auto; 
+            object-fit: contain;
+            aspect-ratio: 1 / 1;
+        }
+
