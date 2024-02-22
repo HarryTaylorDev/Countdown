@@ -1,9 +1,12 @@
 <script>
 	import { goto } from "$app/navigation";
+	import CountdownCell from "$lib/countdownCell.svelte";
 
     const handleclick = () => {
         goto('/create');
     }
+
+    const data=[  {name:'test', colour:'red'},{name:'test2',colour:'blue'},{name:'test2',colour:'green'} ]
 </script>
 
 <div class="button-container">
@@ -12,7 +15,9 @@
 </div>
 
 <div class="list_box">
-
+    {#each data as item}
+        <CountdownCell countdown_Data={item}/>
+    {/each}
 </div>
 
 

@@ -48,12 +48,32 @@ body {
         width: 25%;
     }
 
+ 
+
 .list_box{
     height: 80dvh;
     padding-bottom: 1dvh;
     border-radius: 25px; 
     background-color: rgb(32, 32, 32);
+
+    overflow: auto
 }
+
+    .countdown_Cell{
+        background-color: rgb(73, 73, 73);
+        height: 10dvh;
+        border-radius: 25px; 
+        margin: 1dvh;
+
+        text-align: center;
+    }
+
+    .cell_text{
+        display: inline-block;
+        margin: 0 10px
+    }
+
+
 
 .add_container {
     display: flex;
