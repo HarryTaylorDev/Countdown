@@ -8,3 +8,6 @@ node_modules
 !.env.example
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+package.json
+package-lock.json
+src-tauri/Cargo.toml

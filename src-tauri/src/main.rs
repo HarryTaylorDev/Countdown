@@ -12,3 +12,10 @@ fn main() {
 fn greet(name: &str) -> String {
    format!("Hello, {}!", name)
 }
+
+use tauri::command;
+
+#[command]
+fn log_to_console(message: String) {
+    println!("{}", message);
+}
