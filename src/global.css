@@ -62,6 +62,7 @@ body {
     .countdown_Cell{
         background-color: rgb(73, 73, 73);
         height: 10dvh;
+        min-height: 55px;
         border-radius: 25px; 
         margin: 1dvh;
 

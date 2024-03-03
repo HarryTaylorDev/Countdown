@@ -9,12 +9,23 @@
 
     const handleSort = () => {
         invoke('log_to_console', { data }); 
-        data.sort((a,b) => a.name.localeCompare(b.name));
+        data.sort((a,b) => {
+            if (parseInt(a.date) > parseInt(b.date)){
+                return -1;    
+            } 
+            return 1;    });
         data=data;
         invoke('log_to_console', { data }); 
     }
 
-    let data=[  {name:'atest', colour:'red'},{name:'ctest2',colour:'blue'},{name:'btest2',colour:'green'} ]
+    let data=[  {name:'Film', emoji: '🎞️', date: '1709497026699', colour:'green'},
+                {name:'TV show', emoji: '📺', date: '1709497026752', colour:'Red'},
+                {name:'Book', emoji: '📖', date: '1709497026753', colour:'Yellow'},
+                {name:'Movie', emoji: '🎞️', date: '170949724021', colour:'Grey'},
+                {name:'Game', emoji: '🎮', date: '1709754129', colour:'blue'},
+                {name:'Holiday', emoji: '🏖️', date: '1719497325654', colour:'orange'}, ]
+
+
 </script>
 
 <div class="button-container">
