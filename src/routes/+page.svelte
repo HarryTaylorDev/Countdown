@@ -10,10 +10,11 @@
     const handleSort = () => {
         invoke('log_to_console', { data }); 
         data.sort((a,b) => a.name.localeCompare(b.name));
+        data=data;
         invoke('log_to_console', { data }); 
     }
 
-    const data=[  {name:'atest', colour:'red'},{name:'ctest2',colour:'blue'},{name:'btest2',colour:'green'} ]
+    let data=[  {name:'atest', colour:'red'},{name:'ctest2',colour:'blue'},{name:'btest2',colour:'green'} ]
 </script>
 
 <div class="button-container">
@@ -23,7 +24,7 @@
 
 {#key data}
     <div class="list_box">
-        {#each data as item}
+        {#each data as item (item)}
             <CountdownCell countdown_Data={item}/>
         {/each}
     </div>
