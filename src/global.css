@@ -1,5 +1,12 @@
 body {
     background-color: #171717;
+    overflow:hidden;
+}
+
+
+.pageContainer{
+    position: relative;
+   left: calc((100vw - 100%) / 2);
 }
 
 .button-container {
@@ -56,8 +63,15 @@ body {
     border-radius: 25px; 
     background-color: rgb(32, 32, 32);
 
-    overflow: auto
+    overflow: auto;
+    scrollbar-color: rgb(73, 73, 73) #171717;
+    scrollbar-width: thin;
+  
 }
+
+    ::webkit-scrollbar-button { 
+        display:none;
+    }
 
     .countdown_Cell{
         background-color: rgb(73, 73, 73);
@@ -114,3 +128,23 @@ body {
             aspect-ratio: 1 / 1;
         }
 
+.form{
+    color: aliceblue;
+    display: flex;
+    justify-content: center;
+}
+
+.colourPicker{
+    
+    display: flex;
+    justify-content: center;
+    font-family:'Courier New', Courier, monospace;
+}
+
+.colour{
+    background: white;
+    height: 10dvh;
+    min-height: 55px;
+    border-radius: 25px; 
+    margin: 1dvh;
+}

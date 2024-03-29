@@ -1,7 +1,14 @@
-<script>
+<script lang="ts">
 	import { goto } from "$app/navigation";
 	import CountdownCell from "$lib/countdownCell.svelte";
     import { invoke } from '@tauri-apps/api/tauri';
+
+    interface countDown {
+        name:number;
+        emoji:string;
+        date:string;
+        colour:string;
+    }
 
     const handleclick = () => {
         goto('/create');    
@@ -18,12 +25,12 @@
         invoke('log_to_console', { data }); 
     }
 
-    let data=[  {name:'Film', emoji: '🎞️', date: '1709497026699', colour:'green'},
-                {name:'TV show', emoji: '📺', date: '1709497026752', colour:'Red'},
-                {name:'Book', emoji: '📖', date: '1709497026753', colour:'Yellow'},
-                {name:'Movie', emoji: '🎞️', date: '170949724021', colour:'Grey'},
-                {name:'Game', emoji: '🎮', date: '1709754129', colour:'blue'},
-                {name:'Holiday', emoji: '🏖️', date: '1719497325654', colour:'orange'}, ]
+    let data=[  {name:'Film', emoji: '🎞️', date: '1810989088312', colour:'green'},
+                {name:'TV show', emoji: '📺', date: '1810989088312', colour:'Red'},
+                {name:'Book', emoji: '📖', date: '1810989088312', colour:'Yellow'},
+                {name:'Movie', emoji: '🎞️', date: '1810989088312', colour:'Grey'},
+                {name:'Game', emoji: '🎮', date: '1810189088312', colour:'blue'},
+                {name:'Holiday', emoji: '🏖️', date: '1810989018312', colour:'orange'}, ]
 
 
 </script>
@@ -36,7 +43,7 @@
 {#key data}
     <div class="list_box">
         {#each data as item (item)}
-            <CountdownCell countdown_Data={item}/>
+            <CountdownCell cdData = {item}/>
         {/each}
     </div>
 {/key}

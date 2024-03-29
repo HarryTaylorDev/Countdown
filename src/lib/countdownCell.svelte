@@ -1,9 +1,14 @@
-<script>
+<script lang="ts">
 
-    /**
-	 * @type {{ date: string; colour: string; emoji: string; name: string; }}
-	 */
-     export let countdown_Data;
+    interface countDown {
+        name:number;
+        emoji:string;
+        date:string;
+        colour:string;
+    }
+
+    export let cdData;
+    let countdown_Data: countDown = cdData;
     import { onMount } from 'svelte';
 
     let currentDateTime = new Date();
@@ -20,11 +25,8 @@
         };
     });
 
-    /**
-	 * @param {string} str1
-	 * @param {string} str2
-	 */
-    function calcDiff(str1, str2) {
+
+    function calcDiff(str1: string, str2: string) {
         const date1 = new Date(parseInt(str1));
         const date2 = new Date(parseInt(str2));
         // Calculate the difference in milliseconds
@@ -33,16 +35,26 @@
         // Convert milliseconds to days (consider rounding if needed)
         const differenceInDays = (differenceInMs / (1000 * 60 * 60 * 24));
 
-        return differenceInDays;
+        return differenceInDays.toFixed(1);
     }
 
+  
     let daysRemaining = calcDiff(currentDateTime.getTime().toString(), countdown_Data.date).toString();
+
+    
+    let options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+    };
+
+    let readableDate = new Date(parseInt(countdown_Data.date)).toLocaleDateString(undefined, options);
 
 </script>
 
 <div style="background-color: {countdown_Data.colour};" class="countdown_Cell">
         <p class="cell_text">{countdown_Data.emoji}</p>
         <p class="cell_text">{countdown_Data.name}</p>
-        <p class="cell_text">{countdown_Data.date}</p>
-        <p class="cell_text">{daysRemaining}</p>
+        <p class="cell_text">{readableDate}</p>
+        <p class="cell_text">{daysRemaining} days left</p>
 </div>
