@@ -1,8 +1,7 @@
-<script>
+<script lang="ts">
+	///////////////////////////////////////////////////////////////////////////
 	import ColorPicker, { ChromeVariant } from 'svelte-awesome-color-picker';
 	import { colord } from "colord";
-
-	export let data = {};
 
 	let hex = "#217ae6"
 
@@ -15,26 +14,55 @@
 
 	let color = colord("#ff0000");
 
+	//////////////////////////////////////////////////////////////////////////
+	// import EmojiSelector from 'svelte-emoji-selector';
+
+	// let textContent = '';
+
+	// function onEmoji(event) {
+	// 	textContent += event.detail;
+	// }
+	import 'emoji-picker-element';
+	
+	import { onMount } from 'svelte';
+
+	var emoji = '😀'
+
+	onMount(() => {
+		const emojiPicker = document.querySelector('emoji-picker');
+		if (emojiPicker) {			
+			emojiPicker.addEventListener('emoji-click', event => emoji = event.detail.unicode ?? '');
+		} else {
+			console.error('emoji-picker element not found');
+		}
+	});
+	//////////////////////////////////////////////////////////////////////////
+	export let data = {};
+
 </script>
 
-<a href="/">Home</a><a href="/">Home</a>
 
 <div class="form">
 	<form>
+		<div class="button-container">
+			<button class="form_buttons" >Home</button><br>
+			<button class="form_buttons" type="submit">Submit</button><br>
+		</div>
+		<!-- Name -->
 		<label for="name">Name:</label><br>
 		<input type="text" id="name" name="name" required><br><br>
 	
-		<label for="emoji">Emoji:</label><br>
-		<input type="text" id="emoji" name="emoji" pattern="[\u1F300-\u1F5FF\u1F600-\u1F64F\u1F680-\u1F6FF\u1F900-\u1F9FF\u2600-\u26FF\u2700-\u27BF]+" placeholder="😀" title="Please enter a single emoji."> <br><br> 
-
-		
-
+		<!-- Emoji -->
+		<label for="emoji">Emoji:{emoji}</label><br>
+		<emoji-picker></emoji-picker>
 	
+		<!-- Date -->
 		<label for="date">Date:</label><br> 
 		<input type="date" id="date" name="date" required><br><br>
 	
+		<!-- Colour -->
 		<label for="color">Favorite Color:</label><br>
-
+		<div class = "colour" style="background-color: {hex};"></div>
 		<div class="colourPicker">
 			<ColorPicker 				
 				bind:hex
@@ -44,9 +72,7 @@
 				components={ChromeVariant} 
 				sliderDirection="horizontal"/><br>
 		</div>
+		
 
-		<div class = "colour" style="background-color: {hex};"></div>
-
-		<button type="submit">Submit</button>
 	  </form>
 </div>

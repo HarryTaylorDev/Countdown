@@ -3,13 +3,6 @@
 	import CountdownCell from "$lib/countdownCell.svelte";
     import { invoke } from '@tauri-apps/api/tauri';
 
-    interface countDown {
-        name:number;
-        emoji:string;
-        date:string;
-        colour:string;
-    }
-
     const handleclick = () => {
         goto('/create');    
     }

@@ -53,8 +53,10 @@
 </script>
 
 <div style="background-color: {countdown_Data.colour};" class="countdown_Cell">
+    <div class = "countdown_cell_style">
         <p class="cell_text">{countdown_Data.emoji}</p>
         <p class="cell_text">{countdown_Data.name}</p>
         <p class="cell_text">{readableDate}</p>
         <p class="cell_text">{daysRemaining} days left</p>
+    </div>
 </div>

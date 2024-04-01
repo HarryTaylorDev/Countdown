@@ -1,6 +1,6 @@
 body {
     background-color: #171717;
-    overflow:hidden;
+    /* overflow:hidden; */
 }
 
 
@@ -83,6 +83,11 @@ body {
         text-align: center;
     }
 
+        .countdown_cell_style{
+            padding-top: 13%;
+            padding-bottom: 5%;
+        }
+
     .cell_text{
         display: inline-block;
         margin: 0 10px
@@ -132,6 +137,7 @@ body {
     color: aliceblue;
     display: flex;
     justify-content: center;
+    /* overflow: auto; */
 }
 
 .colourPicker{
@@ -143,8 +149,21 @@ body {
 
 .colour{
     background: white;
-    height: 10dvh;
-    min-height: 55px;
+    height: 5dvh;
+    min-height: 15px;
     border-radius: 25px; 
     margin: 1dvh;
+}
+
+.form_buttons {
+    appearance: none;
+    border: none;
+    background-color: #3381CB; 
+    color: white; 
+    padding: 0px 0px; 
+    border-radius: 25px; 
+    cursor: pointer;
+
+    height: 5dv;
+    width: 25%;
 }
