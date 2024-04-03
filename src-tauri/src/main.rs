@@ -3,17 +3,13 @@
 
 fn main() {
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![greet])
+    .invoke_handler(tauri::generate_handler![log_to_console])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
 
-#[tauri::command]
-fn greet(name: &str) -> String {
-   format!("Hello, {}!", name)
-}
 
-use tauri::command;
+use tauri::{command, Runtime};
 
 #[command]
 fn log_to_console(message: String) {
