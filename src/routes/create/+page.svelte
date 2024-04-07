@@ -3,25 +3,18 @@
 	import ColorPicker, { ChromeVariant } from 'svelte-awesome-color-picker';
 	import { colord } from "colord";
 
-	let hex = "#217ae6"
+	let hex = "#000000"
 
 	let rgb = {
-		"r": 31,
-		"g": 31,
-		"b": 31,
+		"r": 72,
+		"g": 72,
+		"b": 72,
 		"a": 1
 	}	
 
 	let color = colord("#ff0000");
 
 	//////////////////////////////////////////////////////////////////////////
-	// import EmojiSelector from 'svelte-emoji-selector';
-
-	// let textContent = '';
-
-	// function onEmoji(event) {
-	// 	textContent += event.detail;
-	// }
 	import 'emoji-picker-element';
 	
 	import { onMount } from 'svelte';
@@ -37,11 +30,15 @@
 		}
 	});
 	//////////////////////////////////////////////////////////////////////////
-	const submitCD = (() =>{})
+
 	import { invoke } from '@tauri-apps/api/tauri';
 
     async function logToSystemConsole(message: any) {
         await invoke('log_to_console', { message });
+    }
+
+	async function save_count_down(data: countDown) {
+        await invoke('save_count_down', { data });
     }
 
 	interface countDown {
@@ -59,11 +56,11 @@
 	};
 
 	function handleSubmit(e:SubmitEvent){
-		logToSystemConsole('here')
+		
 		const formData = new FormData(e.target as HTMLFormElement);
-		logToSystemConsole('here')
+		
 		var formDate:number = new Date(formData.get('date')?.toString()!).getTime();
-		logToSystemConsole(formDate.toString())
+		
 		data = {
 			name: formData.get('name')?.toString()!,
 			emoji:emoji,
@@ -71,21 +68,38 @@
 			colour:hex
 		}
 
-		logToSystemConsole(data.name)
-		logToSystemConsole(data.emoji)
-		logToSystemConsole(data.date.toString())
-		logToSystemConsole(data.colour)
+		//save_count_down(data)
+
+		// logToSystemConsole("new CD")
+		// logToSystemConsole(data.name)
+		// logToSystemConsole(data.emoji)
+		// logToSystemConsole(data.date.toString())
+		// logToSystemConsole(data.colour)
+		 logToSystemConsole("\n")
 	}
 
-	
+	function testing(){
+		var data:countDown = {name:'Film', emoji: '🎞️', date: 1810989088312, colour:'green'};
+		save_count_down(data);
+
+	}
+
+	import { goto } from "$app/navigation";
+	const handleclick = () => {
+		logToSystemConsole("hello");
+        goto('/');    
+    }
 
 </script>
+
+
+<button type="button" on:click={testing}>TEST</button>
 
 
 <div class="form">
 	<form on:submit|preventDefault={handleSubmit}>
 		<div class="button-container">
-			<button class="form_buttons" >Home</button>
+			<button class="form_buttons" type="button" on:click={handleclick}>Home</button>
 			<button class="form_buttons" type="submit">Submit</button><br>
 		</div>
 		<!-- Name -->
