@@ -3,7 +3,7 @@
     interface countDown {
         name:number;
         emoji:string;
-        date:string;
+        date:number;
         colour:string;
     }
 
@@ -17,7 +17,7 @@
         const interval = setInterval(() => {
         
             currentDateTime = new Date();
-            daysRemaining = calcDiff(currentDateTime.getTime().toString(), countdown_Data.date).toString(); 
+            daysRemaining = calcDiff(currentDateTime.getTime(), countdown_Data.date).toString(); 
         }, 1000);
 
         return () => {
@@ -26,9 +26,9 @@
     });
 
 
-    function calcDiff(str1: string, str2: string) {
-        const date1 = new Date(parseInt(str1));
-        const date2 = new Date(parseInt(str2));
+    function calcDiff(time1: number, time2: number) {
+        const date1 = new Date(time1);
+        const date2 = new Date(time2);
         // Calculate the difference in milliseconds
         const differenceInMs = date2.getTime() - date1.getTime();
 
@@ -39,7 +39,7 @@
     }
 
   
-    let daysRemaining = calcDiff(currentDateTime.getTime().toString(), countdown_Data.date).toString();
+    let daysRemaining = calcDiff(currentDateTime.getTime(), countdown_Data.date).toString();
 
     
     let options: Intl.DateTimeFormatOptions = {
@@ -48,7 +48,7 @@
         day: 'numeric',
     };
 
-    let readableDate = new Date(parseInt(countdown_Data.date)).toLocaleDateString(undefined, options);
+    let readableDate = new Date(countdown_Data.date).toLocaleDateString(undefined, options);
 
 </script>
 

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import CountdownCell from "$lib/countdownCell.svelte";
+	import { message } from "@tauri-apps/api/dialog";
     import { invoke } from '@tauri-apps/api/tauri';
    
     async function logToSystemConsole(message: any) {
@@ -11,34 +12,44 @@
         await invoke('save_count_down', { data });
     }
 
+    async function load_data():Promise<countDown[]>{
+        logToSystemConsole("about to load");
+
+        try { 
+            const JSONdata:string[] = await invoke('load_data');  
+            return JSONdata.map(str=> {
+                console.log(str);
+                
+                return JSON.parse(str);
+            })
+        
+        } catch(error) {
+            console.error("Error loading data:", error);
+            return [];
+        }
+
+    }
+
     interface countDown {
-        name:string;
-        emoji:string;
-        date:number;
-        colour:string;
+        name:string,
+        emoji:string,
+        date:number,
+        colour:string
     }
 
     const handleclick = () => {
-        logToSystemConsole("here");
-        //save_count_down(data);
         goto('/create');    
       
     }
 
+    let cd:countDown[];
 
-
-    
-    function testing(){
-        save_count_down(data[0]);
-        
-        data.sort((a,b) => {
-            if ((a.date) > (b.date)){
-                return -1;    
-            } 
-            return 1;});
-        data=data;
-
-	}
+    import { onMount } from 'svelte';
+    onMount(async () => {
+		cd = await load_data();
+        logToSystemConsole(JSON.stringify(cd[0]));
+	});
+ 
 
     function handleSort(){
         save_count_down(data[0]);
@@ -63,21 +74,24 @@
                                 
 </script>
 
-<button type="button" on:click={testing}>TEST</button>
-
 
 <div class="button-container">
     <button class="date_button">Countdowns</button>
     <button type="button" on:click={handleSort} class="sort_button">Sort</button>
 </div>
 
-{#key data}
+{#if cd}
+    {#key data}
     <div class="list_box">
-        {#each data as item (item)}
+        {#each cd as item (item)}
             <CountdownCell cdData = {item}/>
         {/each}
+        
     </div>
 {/key}
+{:else}
+   <p>Loading data...</p>
+{/if}
 
 
 <div class="add_container">

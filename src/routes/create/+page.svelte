@@ -68,14 +68,14 @@
 			colour:hex
 		}
 
-		//save_count_down(data)
-
+		save_count_down(data)
+		goto('/');  
 		// logToSystemConsole("new CD")
 		// logToSystemConsole(data.name)
 		// logToSystemConsole(data.emoji)
 		// logToSystemConsole(data.date.toString())
 		// logToSystemConsole(data.colour)
-		 logToSystemConsole("\n")
+		//logToSystemConsole("\n")
 	}
 
 	function testing(){
