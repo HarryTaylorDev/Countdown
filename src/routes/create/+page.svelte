@@ -38,7 +38,8 @@
     }
 
 	async function save_count_down(data: countDown) {
-        await invoke('save_count_down', { data });
+		let string:string = JSON.stringify(data)
+        await invoke('save_file_to_documents', { string});
     }
 
 	interface countDown {
@@ -70,17 +71,6 @@
 
 		save_count_down(data)
 		goto('/');  
-		// logToSystemConsole("new CD")
-		// logToSystemConsole(data.name)
-		// logToSystemConsole(data.emoji)
-		// logToSystemConsole(data.date.toString())
-		// logToSystemConsole(data.colour)
-		//logToSystemConsole("\n")
-	}
-
-	function testing(){
-		var data:countDown = {name:'Film', emoji: '🎞️', date: 1810989088312, colour:'green'};
-		save_count_down(data);
 
 	}
 
@@ -93,9 +83,6 @@
 </script>
 
 
-<button type="button" on:click={testing}>TEST</button>
-
-
 <div class="form">
 	<form on:submit|preventDefault={handleSubmit}>
 		<div class="button-container">
@@ -104,7 +91,7 @@
 		</div>
 		<!-- Name -->
 		<label for="name">Name:</label><br>
-		<input type="text" id="name" name="name" required><br><br>
+		<input autocomplete="off" type="text" id="name" name="name" required><br><br>
 	
 		<!-- Emoji -->
 		<label for="emoji">Emoji:{emoji}</label><br>

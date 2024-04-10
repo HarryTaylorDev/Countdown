@@ -18,8 +18,6 @@
         try { 
             const JSONdata:string[] = await invoke('load_data');  
             return JSONdata.map(str=> {
-                console.log(str);
-                
                 return JSON.parse(str);
             })
         
@@ -47,22 +45,17 @@
     import { onMount } from 'svelte';
     onMount(async () => {
 		cd = await load_data();
-        logToSystemConsole(JSON.stringify(cd[0]));
 	});
  
 
     function handleSort(){
-        save_count_down(data[0]);
-    
-        logToSystemConsole("here");	
-        //invoke('log_to_console', { message: "hello" });
 
-        data.sort((a,b) => {
+        cd.sort((a,b) => {
             if ((a.date) > (b.date)){
                 return -1;    
             } 
             return 1;});
-        data=data;
+        cd=cd;
     }
 
     let data:countDown[] =  [   {name:'Film', emoji: '🎞️', date: 1810989088312, colour:'green'},

@@ -18,7 +18,7 @@ fn main() {
   /////////////////////////////////////////////////////////////////////////
 
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![log_to_console, save_count_down,load_data])
+    .invoke_handler(tauri::generate_handler![log_to_console, save_file_to_documents, load_data])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
   
@@ -106,13 +106,23 @@ fn read_file_from_documents() -> Result<Vec<String>, String> {
   Ok(data) // Return the result 
 }
 
-fn save_file_to_documents() -> Result<(), String> {
-    let docs_path = get_documents_path()?;
-    let file_path = format!("{}\\CountDown\\CountDownData.txt", docs_path);
+use std::fs::OpenOptions;
+use std::io::Write;
 
-    fs::write(file_path, "")
-        .map_err(|err| format!("Error creating file: {}", err))?;
+#[command]
+async fn save_file_to_documents(string:String){
+    let docs_path = get_documents_path();    
+    let file_path = format!("{}\\CountDown\\CountDownData.txt", docs_path.unwrap());
 
-    Ok(())
+    // Open a file with append option
+    let mut data_file = OpenOptions::new()
+        .append(true)
+        .open(file_path)
+        .expect("cannot open file");
+
+      if let Err(e) = writeln!(data_file, "{}",string) {
+          eprintln!("Couldn't write to file: {}", e);
+      }
+    //fs::write(file_path, string).map_err(|err| format!("Error creating file: {}", err));
 }
 
