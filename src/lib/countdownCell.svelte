@@ -17,7 +17,7 @@
         const interval = setInterval(() => {
         
             currentDateTime = new Date();
-            daysRemaining = calcDiff(currentDateTime.getTime(), countdown_Data.date).toString(); 
+            timeRemaining = calcDiff(currentDateTime.getTime(), countdown_Data.date).toString(); 
         }, 1000);
 
         return () => {
@@ -26,20 +26,49 @@
     });
 
 
-    function calcDiff(time1: number, time2: number) {
+    function calcDiff(time1: number, time2: number):string {
         const date1 = new Date(time1);
         const date2 = new Date(time2);
         // Calculate the difference in milliseconds
         const differenceInMs = date2.getTime() - date1.getTime();
 
-        // Convert milliseconds to days (consider rounding if needed)
-        const differenceInDays = (differenceInMs / (1000 * 60 * 60 * 24));
+        if (differenceInMs > (1000 * 60 * 60 * 24)){
+            const differenceInDays = (differenceInMs / (1000 * 60 * 60 * 24));
+            if (differenceInDays < 2){
+                return Math.floor(differenceInDays).toString() + " Day Left";
+            }
+            return Math.floor(differenceInDays).toString() + " Days Left";
+        }
+        
+        if(differenceInMs > (1000 * 60 * 60)){
+            const differenceInHours = (differenceInMs / (1000 * 60 * 60));
+            if (differenceInHours < 2){
+                return Math.floor(differenceInHours).toString() + " Hour Left";
+            }
+            return Math.floor(differenceInHours).toString() + " Hours Left";
+        }
+        
+        if(differenceInMs > (1000 * 60)){
+            const differenceInMinutes = (differenceInMs / (1000 * 60));
+            if (differenceInMinutes < 2){
+                return Math.floor(differenceInMinutes).toString() + " Minute Left";
+            }
+            return Math.floor(differenceInMinutes).toString() + " Minutes Left";
+        }
 
-        return differenceInDays.toFixed(1);
+        if(differenceInMs > (1000)){
+            const differenceInSeconds = (differenceInMs / (1000));
+            if (differenceInSeconds < 2){
+                return Math.floor(differenceInSeconds).toString() + " Second Left";
+            }
+            return Math.floor(differenceInSeconds).toString() + " Seconds Left";
+        }
+        return "Complete!"
+
     }
 
   
-    let daysRemaining = calcDiff(currentDateTime.getTime(), countdown_Data.date).toString();
+    let timeRemaining:string = calcDiff(currentDateTime.getTime(), countdown_Data.date).toString();
 
     
     let options: Intl.DateTimeFormatOptions = {
@@ -57,6 +86,6 @@
         <p class="cell_text">{countdown_Data.emoji}</p>
         <p class="cell_text">{countdown_Data.name}</p>
         <p class="cell_text">{readableDate}</p>
-        <p class="cell_text">{daysRemaining} days left</p>
+        <p class="cell_text">{timeRemaining}</p>
     </div>
 </div>

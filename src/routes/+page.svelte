@@ -45,6 +45,7 @@
     import { onMount } from 'svelte';
     onMount(async () => {
 		cd = await load_data();
+        handleSort();
 	});
  
 
