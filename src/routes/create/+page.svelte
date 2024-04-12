@@ -16,18 +16,27 @@
 
 	//////////////////////////////////////////////////////////////////////////
 	import 'emoji-picker-element';
-	
+	import { countdown_list } from "../../stores.ts";
 	import { onMount } from 'svelte';
 
 	var emoji = '😀'
+	let cd:countDown[] = [];
 
-	onMount(() => {
+	onMount(async () => {
 		const emojiPicker = document.querySelector('emoji-picker');
 		if (emojiPicker) {			
 			emojiPicker.addEventListener('emoji-click', event => emoji = event.detail.unicode ?? '');
 		} else {
 			console.error('emoji-picker element not found');
 		}
+
+		await countdown_list.subscribe((data)=> {
+            cd = data;
+        });
+		// console.log('testing');
+		// console.log(cd);
+		
+
 	});
 	//////////////////////////////////////////////////////////////////////////
 
@@ -37,9 +46,15 @@
         await invoke('log_to_console', { message });
     }
 
-	async function save_count_down(data: countDown) {
-		let string:string = JSON.stringify(data)
-        await invoke('save_file_to_documents', { string});
+
+
+	async function save_count_down(data: countDown[]) {
+		let jsonstrings:string[]=[]
+		data.forEach(line=>{
+			jsonstrings.push(JSON.stringify(line));
+		});
+        await invoke('save_to_file', {jsonstrings});
+		
     }
 
 	interface countDown {
@@ -56,6 +71,7 @@
 		colour:''
 	};
 
+
 	function handleSubmit(e:SubmitEvent){
 		
 		const formData = new FormData(e.target as HTMLFormElement);
@@ -69,12 +85,14 @@
 			colour:hex
 		}
 
-		save_count_down(data)
+		cd.push(data);
+		save_count_down(cd);
 		goto('/');  
 
 	}
 
 	import { goto } from "$app/navigation";
+	import { json } from '@sveltejs/kit';
 	const handleclick = () => {
 		logToSystemConsole("hello");
         goto('/');    

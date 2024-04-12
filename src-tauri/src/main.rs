@@ -1,6 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use serde::{Serialize, Deserialize};
+use std::fmt::write;
 use std::fs;
 use tauri::api::path::document_dir;
 use std::path::Path;
@@ -18,7 +19,7 @@ fn main() {
   /////////////////////////////////////////////////////////////////////////
 
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![log_to_console, save_file_to_documents, load_data])
+    .invoke_handler(tauri::generate_handler![log_to_console, append_to_file, load_data, save_to_file])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
   
@@ -27,28 +28,17 @@ fn main() {
 use tauri::{command};
 
 #[command]
-fn save_count_down(data: serde_json::Value) {
-  if let Some(object) = data.as_object() {
-    // Iterate through key-value pairs
-    for (key, value) in object {
-        println!("{}: {}",key, value);
-    }
-  }
-
-}
-
-#[command]
 fn log_to_console(message: String) {
     println!("{}", message);
 }
 
-#[derive(Serialize, Deserialize)]
-struct CountDown {
-  name:String,
-  emoji:String,
-  date:i64,
-  colour:String
-}
+// #[derive(Serialize, Deserialize)]
+// struct CountDown {
+//   name:String,
+//   emoji:String,
+//   date:i64,
+//   colour:String
+// }
 
 #[tauri::command]
 async fn load_data() -> Vec<String>{
@@ -110,9 +100,10 @@ use std::fs::OpenOptions;
 use std::io::Write;
 
 #[command]
-async fn save_file_to_documents(string:String){
+async fn append_to_file(string:String){
     let docs_path = get_documents_path();    
     let file_path = format!("{}\\CountDown\\CountDownData.txt", docs_path.unwrap());
+    println!("{}",file_path.clone());
 
     // Open a file with append option
     let mut data_file = OpenOptions::new()
@@ -123,6 +114,16 @@ async fn save_file_to_documents(string:String){
       if let Err(e) = writeln!(data_file, "{}",string) {
           eprintln!("Couldn't write to file: {}", e);
       }
-    //fs::write(file_path, string).map_err(|err| format!("Error creating file: {}", err));
+}
+
+
+#[command]
+async fn save_to_file(jsonstrings:Vec<String>){
+    let docs_path = get_documents_path();    
+    let file_path = format!("{}\\CountDown\\CountDownData.txt", docs_path.unwrap());
+    fs::write(file_path, jsonstrings.join("\n")).expect("error wrting file");
+
+   
+
 }
 

@@ -1,7 +1,7 @@
 <script lang="ts">
 
     interface countDown {
-        name:number;
+        name:string;
         emoji:string;
         date:number;
         colour:string;
@@ -79,9 +79,23 @@
 
     let readableDate = new Date(countdown_Data.date).toLocaleDateString(undefined, options);
 
+    import { goto } from "$app/navigation";
+    import {edit_data} from '../stores.js';
+    function handleEdit(){
+        edit_data.update((data) => {
+            return data = countdown_Data;
+        });
+        goto('/edit');  
+    }
+
+    function n(){
+
+    }
+
 </script>
 
-<div style="background-color: {countdown_Data.colour};" class="countdown_Cell">
+
+<div role = "button" tabindex = "0" on:click={handleEdit} on:keydown={n} style="background-color: {countdown_Data.colour};" class="countdown_Cell">
     <div class = "countdown_cell_style">
         <p class="cell_text">{countdown_Data.emoji}</p>
         <p class="cell_text">{countdown_Data.name}</p>

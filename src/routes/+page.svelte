@@ -8,9 +8,9 @@
         await invoke('log_to_console', { message });
     }
 
-	async function save_count_down(data: countDown) {
-        await invoke('save_count_down', { data });
-    }
+	// async function save_count_down(data: countDown) {
+    //     await invoke('save_count_down', { data });
+    // }
 
     async function load_data():Promise<countDown[]>{
         logToSystemConsole("about to load");
@@ -40,12 +40,27 @@
       
     }
 
-    let cd:countDown[];
+    let cd:countDown[] = [];
 
     import { onMount } from 'svelte';
+    import { countdown_list } from "../stores.ts";
+
     onMount(async () => {
-		cd = await load_data();
-        handleSort();
+        await countdown_list.subscribe((data)=> {
+            cd = data;
+        });
+
+        if (cd.length == 0){
+            const data = await load_data();
+            countdown_list.update(() => data);
+        }
+
+        await countdown_list.update(()=> {
+            return cd;
+        });
+
+		//cd = await load_data();
+       // handleSort();
 	});
  
 
@@ -75,14 +90,14 @@
 </div>
 
 {#if cd}
-    {#key data}
+    {#key cd}
     <div class="list_box">
         {#each cd as item (item)}
             <CountdownCell cdData = {item}/>
         {/each}
         
     </div>
-{/key}
+    {/key}
 {:else}
    <p>Loading data...</p>
 {/if}
