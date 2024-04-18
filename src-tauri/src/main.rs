@@ -1,7 +1,5 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
-use serde::{Serialize, Deserialize};
-use std::fmt::write;
 use std::fs;
 use tauri::api::path::document_dir;
 use std::path::Path;
@@ -122,8 +120,5 @@ async fn save_to_file(jsonstrings:Vec<String>){
     let docs_path = get_documents_path();    
     let file_path = format!("{}\\CountDown\\CountDownData.txt", docs_path.unwrap());
     fs::write(file_path, jsonstrings.join("\n")).expect("error wrting file");
-
-   
-
 }
 

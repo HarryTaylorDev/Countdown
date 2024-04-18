@@ -3,6 +3,7 @@
 	import CountdownCell from "$lib/countdownCell.svelte";
 	import { message } from "@tauri-apps/api/dialog";
     import { invoke } from '@tauri-apps/api/tauri';
+    import type { countDown } from '../common.ts';
    
     async function logToSystemConsole(message: any) {
         await invoke('log_to_console', { message });
@@ -26,13 +27,6 @@
             return [];
         }
 
-    }
-
-    interface countDown {
-        name:string,
-        emoji:string,
-        date:number,
-        colour:string
     }
 
     const handleclick = () => {
@@ -74,12 +68,12 @@
         cd=cd;
     }
 
-    let data:countDown[] =  [   {name:'Film', emoji: '🎞️', date: 1810989088312, colour:'green'},
-                                {name:'TV show', emoji: '📺', date: 1810989088312, colour:'purple'},
-                                {name:'Book', emoji: '📖', date: 1810989088312, colour:'Yellow'},
-                                {name:'Movie', emoji: '🎞️', date: 1810989088312, colour:'Grey'},
-                                {name:'Game', emoji: '🎮', date: 1810189088312, colour:'blue'},
-                                {name:'Holiday', emoji: '🏖️', date: 1810989018312, colour:'orange'}, ]
+    // let data:countDown[] =  [   {name:'Film', emoji: '🎞️', date: 1810989088312, colour:'green'},
+    //                             {name:'TV show', emoji: '📺', date: 1810989088312, colour:'purple'},
+    //                             {name:'Book', emoji: '📖', date: 1810989088312, colour:'Yellow'},
+    //                             {name:'Movie', emoji: '🎞️', date: 1810989088312, colour:'Grey'},
+    //                             {name:'Game', emoji: '🎮', date: 1810189088312, colour:'blue'},
+    //                             {name:'Holiday', emoji: '🏖️', date: 1810989018312, colour:'orange'}, ]
                                 
 </script>
 
@@ -89,19 +83,26 @@
     <button type="button" on:click={handleSort} class="sort_button">Sort</button>
 </div>
 
-{#if cd}
-    {#key cd}
-    <div class="list_box">
-        {#each cd as item (item)}
-            <CountdownCell cdData = {item}/>
-        {/each}
-        
-    </div>
-    {/key}
-{:else}
-   <p>Loading data...</p>
-{/if}
 
+<div class="list_box">
+    {#if cd}
+        {#key cd}
+            {#each cd as item (item)}
+                {#if (item.date - new Date().getTime())>0}
+                    <CountdownCell cdData = {item}/>
+                {/if}
+            {/each}
+            <hr class="div-with-hr">
+            {#each cd as item (item)}
+                {#if (item.date - new Date().getTime())<0}
+                    <CountdownCell cdData = {item}/>
+                {/if}
+            {/each}      
+        {/key}
+    {:else}
+    <p>Loading data...</p>
+    {/if}
+</div>
 
 <div class="add_container">
     <button on:click={handleclick} class="add_item_button">

@@ -168,3 +168,10 @@ body {
     height: 5dv;
     width: 25%;
 }
+
+.div-with-hr{ 
+    width: 80%; /* Adjust the width of the line as needed */
+    margin: 0 auto; /* Center the line horizontally */
+    border: 2px solid #ccc; /* Example border style */
+    border-radius: 25px; 
+  }

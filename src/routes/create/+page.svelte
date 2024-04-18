@@ -33,12 +33,10 @@
 		await countdown_list.subscribe((data)=> {
             cd = data;
         });
-		// console.log('testing');
-		// console.log(cd);
-		
-
 	});
 	//////////////////////////////////////////////////////////////////////////
+
+	import type { countDown } from '../../common.ts';
 
 	import { invoke } from '@tauri-apps/api/tauri';
 
@@ -57,12 +55,6 @@
 		
     }
 
-	interface countDown {
-        name:string;
-        emoji:string;
-        date:number;
-        colour:string;
-    }
 
 	export let data:countDown = {
 		name:'',
@@ -110,20 +102,26 @@
 		<!-- Name -->
 		<label for="name">Name:</label><br>
 		<input autocomplete="off" type="text" id="name" name="name" required><br><br>
-	
+
+		<hr class="div-with-hr">
+
 		<!-- Emoji -->
 		<label for="emoji">Emoji:{emoji}</label><br>
 		<emoji-picker></emoji-picker>
 	
+		<hr class="div-with-hr">
+
 		<!-- Date -->
 		<label for="date">Date:</label><br> 
 		<input type="date" id="date" name="date" required><br><br>
 	
+		<hr class="div-with-hr">
+
 		<!-- Colour -->
 		<label for="color">Favorite Color:</label><br>
 		<div class = "colour" style="background-color: {hex};"></div>
-		<div class="colourPicker">
-			<ColorPicker 				
+		<div  class="colourPicker">
+			<ColorPicker  				
 				bind:hex
 				bind:rgb
 				bind:color
