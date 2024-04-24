@@ -21,12 +21,12 @@
     
     
 	import { invoke } from '@tauri-apps/api/tauri';
-    async function save_count_down(data: countDown[]) {
+    async function save_count_down(fileName: string, data: countDown[]) {
 		let jsonstrings:string[]=[]
 		data.forEach(line=>{
 			jsonstrings.push(JSON.stringify(line));
 		});
-        await invoke('save_to_file', {jsonstrings});
+        await invoke('save_to_file', {fileName, jsonstrings});
 		
     }
     
@@ -37,7 +37,7 @@
             cd.splice(index, 1); // 2nd parameter means remove one item only
         }
         
-        save_count_down(cd);
+        save_count_down("CountDownData.txt",cd);
 
         goto('/');  
 
@@ -104,7 +104,7 @@
         }
         
 		// cd.push(data);
-		save_count_down(cd);
+		save_count_down("CountDownData.txt",cd);
         goto("/");
     }
 

@@ -17,7 +17,8 @@
         logToSystemConsole("about to load");
 
         try { 
-            const JSONdata:string[] = await invoke('load_data');  
+            let file = 'CountDownData.txt'
+            const JSONdata:string[] = await invoke('load_data', {file});  
             return JSONdata.map(str=> {
                 return JSON.parse(str);
             })
@@ -26,7 +27,6 @@
             console.error("Error loading data:", error);
             return [];
         }
-
     }
 
     const handleclick = () => {
@@ -68,6 +68,19 @@
         cd=cd;
     }
 
+    function check_complete():boolean{
+        for (let item of cd){
+            if (item.date < new Date().getTime()){
+                console.log("false");                
+                return false;
+            }
+        }
+
+        console.log("true");
+        
+        return true;
+    }
+
     // let data:countDown[] =  [   {name:'Film', emoji: '🎞️', date: 1810989088312, colour:'green'},
     //                             {name:'TV show', emoji: '📺', date: 1810989088312, colour:'purple'},
     //                             {name:'Book', emoji: '📖', date: 1810989088312, colour:'Yellow'},
@@ -92,7 +105,9 @@
                     <CountdownCell cdData = {item}/>
                 {/if}
             {/each}
-            <hr class="div-with-hr">
+            {#if (cd.length>0 && !check_complete())}
+                <hr class="div-with-hr">
+            {/if}
             {#each cd as item (item)}
                 {#if (item.date - new Date().getTime())<0}
                     <CountdownCell cdData = {item}/>

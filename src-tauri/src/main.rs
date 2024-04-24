@@ -1,6 +1,7 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use std::fs;
+// use tauri::api::file;
 use tauri::api::path::document_dir;
 use std::path::Path;
 use std::fs::File;
@@ -23,7 +24,7 @@ fn main() {
   
 }
 
-use tauri::{command};
+use tauri::command;
 
 #[command]
 fn log_to_console(message: String) {
@@ -39,8 +40,8 @@ fn log_to_console(message: String) {
 // }
 
 #[tauri::command]
-async fn load_data() -> Vec<String>{
-  let result = read_file_from_documents();
+async fn load_data(file: String) -> Vec<String>{
+  let result = read_file_from_documents(file);
   result.unwrap()
 }
 
@@ -60,17 +61,21 @@ fn ensure_folder_exists() -> Result<(), String> {
 
   fs::create_dir_all(folder_path.clone()).map_err(|err| format!("Error creating folder: {}", err))?;
 
-
-
-  let file_path = format!("{}\\CountDownData.txt", folder_path);
-
-  let path = Path::new(&file_path);
-  if !path.exists() {
-      fs::write(&file_path, "") // Create an empty file
-          .map_err(|err| format!("Error creating file: {}", err))?;
-  }
+  ensure_file_exists(format!("{}\\CountDownData.txt", folder_path));
+  ensure_file_exists(format!("{}\\CountDown_Data_No_Date.txt", folder_path));
+  ensure_file_exists(format!("{}\\Groups_Data.txt", folder_path));
 
   Ok(())
+}
+
+fn ensure_file_exists(file_path: String){
+  let path = Path::new(&file_path);
+  if !path.exists() {
+    match fs::write(&file_path, "") {
+      Ok(_) => println!("File created successfully"),
+      Err(err) => println!("Error creating file: {}", err)
+    }
+  }
 }
 
 fn read_lines(file_path: &str) -> Result<Vec<String>, String> {
@@ -86,10 +91,10 @@ fn read_lines(file_path: &str) -> Result<Vec<String>, String> {
   Ok(lines)
 }
 
-fn read_file_from_documents() -> Result<Vec<String>, String> {
+fn read_file_from_documents(file: String) -> Result<Vec<String>, String> {
   let docs_path = get_documents_path()?;
-  let file_path = format!("{}\\CountDown\\CountDownData.txt", docs_path);
-
+  let file_path = format!("{}\\CountDown\\{}", docs_path,file);
+  println!("{}", file_path.clone());
   let data = read_lines(&file_path)?; // Call your read_lines function  
   Ok(data) // Return the result 
 }
@@ -116,9 +121,9 @@ async fn append_to_file(string:String){
 
 
 #[command]
-async fn save_to_file(jsonstrings:Vec<String>){
+async fn save_to_file(fileName:String, jsonstrings:Vec<String>){
     let docs_path = get_documents_path();    
-    let file_path = format!("{}\\CountDown\\CountDownData.txt", docs_path.unwrap());
+    let file_path = format!("{}\\CountDown\\{}", docs_path.unwrap(),fileName);
     fs::write(file_path, jsonstrings.join("\n")).expect("error wrting file");
 }
 
